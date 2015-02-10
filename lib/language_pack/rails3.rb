@@ -138,4 +138,12 @@ private
       "#{scheme}://user:pass@127.0.0.1/dbname"
     end
   end
+
+  # download bigquery p12 key from S3
+  def post_bundler
+    super
+
+    LanguagePack::Helpers::SoldsieS3Helper.new.download
+  end
+
 end

@@ -10,4 +10,6 @@ group :development, :test do
   gem 'rspec-retry'
   gem "netrc"
   gem "git", github: "hone/ruby-git", branch: "master"
+  gem 'aws-s3'
+  gem 'rspec-mocks'
 end
