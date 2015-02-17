@@ -38,12 +38,13 @@ class LanguagePack::Ruby < LanguagePack::Base
     self.class.bundler
   end
 
-  def initialize(build_path, cache_path=nil)
+  def initialize(build_path, cache_path=nil, env_path=nil)
     super(build_path, cache_path)
     @fetchers[:mri]    = LanguagePack::Fetcher.new(VENDOR_URL, @stack)
     @fetchers[:jvm]    = LanguagePack::Fetcher.new(JVM_BASE_URL)
     @fetchers[:rbx]    = LanguagePack::Fetcher.new(RBX_BASE_URL, @stack)
     @node_installer    = LanguagePack::NodeInstaller.new(@stack)
+    @env_path = env_path
   end
 
   def name
@@ -95,8 +96,9 @@ class LanguagePack::Ruby < LanguagePack::Base
         post_bundler
         create_database_yml
         install_binaries
-        run_assets_precompile_rake_task
+        run_assets_precompile_rake_task        
       end
+      s3_file_download
       super
     end
   end
@@ -831,5 +833,9 @@ params = CGI.parse(uri.query || "")
       # need to reinstall language pack gems
       install_bundler_in_app
     end
+  end
+
+  def s3_file_download
+    puts 'Download files from S3 if needed'
   end
 end
