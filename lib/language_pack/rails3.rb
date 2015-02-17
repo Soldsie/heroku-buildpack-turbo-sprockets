@@ -145,14 +145,14 @@ private
 
   def download_bigquery_key
     # check if key already exists
-    local_key_file = open(File.join(env_dir, 'BIGQUERY_KEY_FILENAME')).read.strip
+    local_key_file = open(File.join(@env_dir, 'BIGQUERY_KEY_FILENAME')).read.strip
     if !File.exists?(File.join(build_path, local_key_file))
       puts 'downloading BigQuery p12 key from s3 ...'
 
-      aws_key = open(File.join(env_dir, 'AWS_ACCESS_KEY_ID')).read.strip
-      aws_secret = open(File.join(env_dir, 'AWS_SECRET_ACCESS_KEY')).read.strip
-      bigquery_key_bucket = open(File.join(env_dir, 'BIGQUERY_KEY_S3_BUCKET')).read.strip
-      bigquery_key_path = open(File.join(env_dir, 'BIGQUERY_KEY_S3_PATH')).read.strip
+      aws_key = open(File.join(@env_dir, 'AWS_ACCESS_KEY_ID')).read.strip
+      aws_secret = open(File.join(@env_dir, 'AWS_SECRET_ACCESS_KEY')).read.strip
+      bigquery_key_bucket = open(File.join(@env_dir, 'BIGQUERY_KEY_S3_BUCKET')).read.strip
+      bigquery_key_path = open(File.join(@env_dir, 'BIGQUERY_KEY_S3_PATH')).read.strip
 
       rake.task('s3:download').invoke({
         s3_key: aws_key,
