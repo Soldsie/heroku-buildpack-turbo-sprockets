@@ -158,13 +158,7 @@ private
       bigquery_key_bucket = open(File.join(@env_path, 'BIGQUERY_KEY_S3_BUCKET')).read.strip
       bigquery_key_path = open(File.join(@env_path, 'BIGQUERY_KEY_S3_PATH')).read.strip
 
-      puts "aws_key: #{aws_key}"
-      puts "aws_secret: #{aws_secret}"
-      puts "bigquery_key_bucket: #{bigquery_key_bucket}"
-      puts "bigquery_key_path: #{bigquery_key_path}"
-      puts "local_file: #{local_key_file}"
-
-      task = rake.task('s3:download')
+      task = rake.task('buildpack:s3_download')
       if !task.is_defined?
         puts "Rake task 's3:download' is not defined !"
         false
