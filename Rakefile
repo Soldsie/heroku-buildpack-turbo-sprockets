@@ -91,8 +91,8 @@ task "ruby:manifest" do
 end
 
 desc 'download a file from s3'
-task 's3:download' do |bucket, key, local_file|
-  s3_download(bucket, key, local_file)
+task 's3:download', [:bucket, :key, :local_file] do |t, args|
+  s3_download(args[:bucket], args[:key], args[:local_file])
 end
 
 namespace :buildpack do
