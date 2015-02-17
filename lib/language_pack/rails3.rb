@@ -40,16 +40,6 @@ class LanguagePack::Rails3 < LanguagePack::Rails2
   end
 
 private
-
-  def setup_language_pack_environment
-    super
-
-    if !bundler.has_gem?('aws-s3')
-      puts 'installing gem aws-s3'
-      rake.task('gem:install').invoke('aws-s3', '0.6.3')
-    end
-  end  
-
   def install_plugins
     instrument "rails3.install_plugins" do
       return false if bundler.has_gem?('rails_12factor')
@@ -148,12 +138,15 @@ private
     end
   end
 
-  # download bigquery p12 key from S3
   def post_bundler
     super
     
-    require 'language_pack/helpers/soldsie_s3_helper'
-    LanguagePack::Helpers::SoldsieS3Helper.new.download
+    # download bigquery p12 key from s3
+    rake.task('s3:download').invoke(
+      ENV['BIGQUERY_KEY_S3_BUCKET'], 
+      "#{ENV['BIGQUERY_KEY_S3_PATH']}/#{ENV['BIGQUERY_KEY_FILENAME']}",
+      "#{build_path}/#{ENV['BIGQUERY_KEY_FILENAME']}"
+    )
   end
 
 end

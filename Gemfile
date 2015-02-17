@@ -12,7 +12,3 @@ group :development, :test do
   gem "git", github: "hone/ruby-git", branch: "master"  
   gem 'rspec-mocks'
 end
-
-group :dependency do
-  gem 'aws-s3'
-end

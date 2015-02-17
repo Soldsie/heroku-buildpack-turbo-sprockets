@@ -13,6 +13,10 @@ def s3_upload(tmpdir, name)
   sh("#{s3_tools_dir}/s3 put #{S3_BUCKET_NAME} #{name}.tgz #{tmpdir}/#{name}.tgz")
 end
 
+def s3_download(bucket, key, dest_dir)
+  sh("#{s3_tools_dir}/s3 get #{bucket} #{key} #{dest_dir}")
+end
+
 def vendor_plugin(git_url, branch = nil)
   name = File.basename(git_url, File.extname(git_url))
   Dir.mktmpdir("#{name}-") do |tmpdir|
@@ -84,6 +88,11 @@ task "ruby:manifest" do
     File.open(name, 'w') {|file| file.puts(rubies.to_yaml) }
     sh("#{s3_tools_dir}/s3 put #{S3_BUCKET_NAME} #{name} #{name}")
   end
+end
+
+desc 'download a file from s3'
+task 's3:download', :bucket, :key, :local_file do
+  s3_download(args[:bucket], args[:key], args[:local_file])
 end
 
 namespace :buildpack do
