@@ -397,7 +397,7 @@ WARNING
   # default set of binaries to install
   # @return [Array] resulting list
   def binaries
-    add_node_js_binary
+    # add_node_js_binary
   end
 
   # vendors binaries into the slug
