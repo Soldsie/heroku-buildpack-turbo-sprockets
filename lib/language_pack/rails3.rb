@@ -45,7 +45,7 @@ private
     super
 
     if !bundler.has_gem?('aws-s3')
-      rake.task('install_gem').invoke('aws-s3')
+      rake.task('gem:install').invoke('aws-s3', '0.6.3')
     end
   end  
 
