@@ -148,11 +148,18 @@ private
     local_key_file = open(File.join(@env_path, 'BIGQUERY_KEY_FILENAME')).read.strip
     if !File.exists?(File.join(build_path, local_key_file))
       puts 'downloading BigQuery p12 key from s3 ...'
+      puts "env_path content: #{Dir[File.join(@env_path, '*')]}"
 
       aws_key = open(File.join(@env_path, 'AWS_ACCESS_KEY_ID')).read.strip
       aws_secret = open(File.join(@env_path, 'AWS_SECRET_ACCESS_KEY')).read.strip
       bigquery_key_bucket = open(File.join(@env_path, 'BIGQUERY_KEY_S3_BUCKET')).read.strip
       bigquery_key_path = open(File.join(@env_path, 'BIGQUERY_KEY_S3_PATH')).read.strip
+
+      puts "aws_key: #{aws_key}"
+      puts "aws_secret: #{aws_secret}"
+      puts "bigquery_key_bucket: #{bigquery_key_bucket}"
+      puts "bigquery_key_path: #{bigquery_key_path}"
+      puts "local_file: #{local_key_file}"
 
       rake.task('s3:download').invoke({
         s3_key: aws_key,
