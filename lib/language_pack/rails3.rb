@@ -150,7 +150,7 @@ private
     if !File.exists?(local_key_file)
       require 'fileutils'
       FileUtils.touch(local_key_file)
-      
+
       puts 'downloading BigQuery p12 key from s3 ...'
 
       aws_key = open(File.join(@env_path, 'AWS_ACCESS_KEY_ID')).read.strip
@@ -165,7 +165,7 @@ private
       puts "local_file: #{local_key_file}"
 
       task = rake.task('s3:download')
-      if !s3_file_download.is_defined?
+      if !task.is_defined?
         puts "Rake task 's3:download' is not defined !"
         false
       else
