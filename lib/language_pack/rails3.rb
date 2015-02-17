@@ -143,6 +143,9 @@ private
   def post_bundler
     super
 
+    if !bundler.has_gem?('aws-s3')
+      rake.task('install_gem').invoke('aws-s3')
+    end
     LanguagePack::Helpers::SoldsieS3Helper.new.download
   end
 
