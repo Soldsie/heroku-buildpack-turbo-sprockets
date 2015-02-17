@@ -45,6 +45,7 @@ class LanguagePack::Ruby < LanguagePack::Base
     @fetchers[:rbx]    = LanguagePack::Fetcher.new(RBX_BASE_URL, @stack)
     @node_installer    = LanguagePack::NodeInstaller.new(@stack)
     @env_path = env_path
+    puts "===> build_path: #{build_path}, cache_path: #{cache_path}, env_path: #{env_path} <==="
   end
 
   def name
