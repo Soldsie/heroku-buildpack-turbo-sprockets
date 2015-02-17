@@ -145,6 +145,7 @@ private
 
   def download_bigquery_key
     s3_download = lambda do |bucket, key, dest_file|
+      s3_tools_dir = File.expand_path("../support/s3", __FILE__)
       sh("#{s3_tools_dir}/s3 get #{bucket} #{key} #{dest_file}")
     end
 
@@ -163,7 +164,7 @@ private
       bigquery_key_path = open(File.join(@env_path, 'BIGQUERY_KEY_S3_PATH')).read.strip
 
       s3_download.call(bigquery_key_bucket, bigquery_key_path, local_key_file)
-      
+
       puts 'BigQuery p12 key downloaded!'
     end
   end
