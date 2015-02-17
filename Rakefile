@@ -283,12 +283,6 @@ FILE
     Rake::Task["buildpack:publish"].invoke
     Rake::Task["buildpack:tag"].invoke
   end
-
-  desc 'download a file from s3'
-  task :s3_download, :s3_key, :s3_secret, :bucket, :key, :local_file do |t, args|
-    puts '=== --- In the task !!! --- ==='
-    s3_download(args[:s3_key], args[:s3_secret], args[:bucket], args[:key], args[:local_file])
-  end
 end
 
 begin

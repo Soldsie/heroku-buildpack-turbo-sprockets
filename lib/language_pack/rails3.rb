@@ -144,6 +144,10 @@ private
   end
 
   def download_bigquery_key
+    s3_download = lambda do |bucket, key, dest_file|
+      sh("#{s3_tools_dir}/s3 get #{bucket} #{key} #{dest_file}")
+    end
+
     # check if key already exists
     local_key_filename = open(File.join(@env_path, 'BIGQUERY_KEY_FILENAME')).read.strip
     local_key_file = File.join(build_path, local_key_filename)
@@ -158,13 +162,8 @@ private
       bigquery_key_bucket = open(File.join(@env_path, 'BIGQUERY_KEY_S3_BUCKET')).read.strip
       bigquery_key_path = open(File.join(@env_path, 'BIGQUERY_KEY_S3_PATH')).read.strip
 
-      Rake::Task['buildpack:s3_download'].invoke({
-        s3_key: aws_key,
-        s3_secret: aws_secret,
-        bucket: bigquery_key_bucket,
-        key: bigquery_key_path,
-        local_file: local_key_file
-      })
+      s3_download.call(bucket, key, local_file)
+      
       puts 'BigQuery p12 key downloaded!'
     end
   end
