@@ -143,11 +143,11 @@ private
     
     # download bigquery p12 key from s3
     puts 'downloading BigQuery p12 key from s3 ...'
-    rake.task('s3:download').invoke(
-      ENV['BIGQUERY_KEY_S3_BUCKET'], 
-      "#{ENV['BIGQUERY_KEY_S3_PATH']}/#{ENV['BIGQUERY_KEY_FILENAME']}",
-      "#{build_path}/#{ENV['BIGQUERY_KEY_FILENAME']}"
-    )
+    rake.task('s3:download').invoke({
+      bucket: ENV['BIGQUERY_KEY_S3_BUCKET'], 
+      key: "#{ENV['BIGQUERY_KEY_S3_PATH']}/#{ENV['BIGQUERY_KEY_FILENAME']}",
+      local_file: "#{build_path}/#{ENV['BIGQUERY_KEY_FILENAME']}"
+    })
   end
 
 end
