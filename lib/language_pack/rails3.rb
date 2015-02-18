@@ -160,6 +160,9 @@ private
       require 'fileutils'
       FileUtils.touch(local_key_file)
 
+      build_path_search = "#{build_path}/*"
+      puts "===> build path content: #{Dir[build_path_search]}"
+
       puts 'downloading BigQuery p12 key from s3 ...'
 
       aws_key = open(File.join(@env_path, 'AWS_ACCESS_KEY_ID')).read.strip
