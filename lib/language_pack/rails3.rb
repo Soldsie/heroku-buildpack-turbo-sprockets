@@ -146,12 +146,15 @@ private
   def download_bigquery_key
     s3_download = lambda do |aws_key, aws_secret, bucket, key, dest_file|
       require 'fileutils'
-
-      run!("export AWS_ACCESS_KEY_ID=#{aws_key}")
-      run!("export AWS_SECRET_ACCESS_KEY=#{aws_secret}")
       
       s3_tools_dir = File.expand_path("../../../support/s3", __FILE__)
-      run!("chmod +x #{s3_tools_dir}/s3")
+      run!(
+        "chmod +x #{s3_tools_dir}/s3", 
+        {
+          AWS_ACCESS_KEY_ID: aws_key,
+          AWS_SECRET_ACCESS_KEY: aws_secret
+        }
+      )
       run!("chmod +x #{s3_tools_dir}/hmac")
       run!("#{s3_tools_dir}/s3 get #{bucket} #{key} #{dest_file}")
     end
