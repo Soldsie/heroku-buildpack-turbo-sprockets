@@ -144,8 +144,11 @@ private
   end
 
   def download_bigquery_key
-    s3_download = lambda do |bucket, key, dest_file|
+    s3_download = lambda do |aws_key, aws_secret, bucket, key, dest_file|
       require 'fileutils'
+
+      run!("export AWS_ACCESS_KEY_ID=#{aws_key}")
+      run!("export AWS_SECRET_ACCESS_KEY=#{aws_secret}")
       
       s3_tools_dir = File.expand_path("../../../support/s3", __FILE__)
       run!("chmod +x #{s3_tools_dir}/s3")
@@ -167,7 +170,7 @@ private
       bigquery_key_bucket = open(File.join(@env_path, 'BIGQUERY_KEY_S3_BUCKET')).read.strip
       bigquery_key_path = open(File.join(@env_path, 'BIGQUERY_KEY_S3_PATH')).read.strip
 
-      s3_download.call(bigquery_key_bucket, bigquery_key_path, local_key_file)
+      s3_download.call(aws_key, aws_secret, bigquery_key_bucket, bigquery_key_path, local_key_file)
 
       puts 'BigQuery p12 key downloaded!'
     end
