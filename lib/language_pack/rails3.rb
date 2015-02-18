@@ -147,10 +147,8 @@ private
     s3_download = lambda do |bucket, key, dest_file|
       require 'fileutils'
       
-      s3_tools_dir = File.expand_path("../../../support/s3", __FILE__)
-      list_dir = "#{s3_tools_dir}/*"
-      puts "s3_tools_dir: #{Dir[list_dir]}"
-      `"#{s3_tools_dir}/s3 get #{bucket} #{key} #{dest_file}"`
+      s3_tools_dir = File.expand_path("../../../support/s3", __FILE__)      
+      `sh "#{s3_tools_dir}/s3 get #{bucket} #{key} #{dest_file}"`
     end
 
     # check if key already exists
@@ -159,9 +157,6 @@ private
     if !File.exists?(local_key_file)
       require 'fileutils'
       FileUtils.touch(local_key_file)
-
-      build_path_search = "#{build_path}/*"
-      puts "===> build path content: #{Dir[build_path_search]}"
 
       puts 'downloading BigQuery p12 key from s3 ...'
 
