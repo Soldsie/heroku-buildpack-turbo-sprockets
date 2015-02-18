@@ -143,7 +143,7 @@ private
     download_bigquery_key
   end
 
-  def download_bigquery_key(s3_staging_dir, s3_cmd_dir)
+  def download_bigquery_key
     s3_download = lambda do |aws_key, aws_secret, bucket, key, dest_file|      
       s3_tools_dir = File.expand_path("../../../scripts", __FILE__)
       run!("chmod +x #{s3_tools_dir}/s3_download.rb")
