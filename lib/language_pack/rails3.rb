@@ -151,7 +151,7 @@ private
       run!("chmod +x #{s3_tools_dir}/s3")
       run!("chmod +x #{s3_tools_dir}/hmac")
       run!(
-        "#{s3_tools_dir}/s3 get #{bucket} #{key} #{dest_file}",
+        "#{s3_tools_dir}/s3 get '#{bucket}' '#{key}' '#{dest_file}'",
         {
           env: {
             'AWS_ACCESS_KEY_ID' => aws_key,
