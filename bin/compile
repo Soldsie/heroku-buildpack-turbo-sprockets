@@ -12,10 +12,7 @@ LanguagePack::Instrument.trace 'compile', 'app.compile' do
   if pack = LanguagePack.detect(ARGV[0], ARGV[1], ARGV[2])
     LanguagePack::ShellHelpers.initialize_env(ARGV[2])
     pack.topic("Compiling #{pack.name}")
-    pack.log("compile") do
-      s3_scripts_dir = File.expand_path("../../support/s3", __FILE__)
-      FileUtils.cp("#{s3_scripts_dir}/hmac", File.join(ARGV[0], 'hmac'))
-      FileUtils.cp("#{s3_scripts_dir}/s3", File.join(ARGV[0], 's3'))
+    pack.log("compile") do      
       pack.compile
     end
   end
