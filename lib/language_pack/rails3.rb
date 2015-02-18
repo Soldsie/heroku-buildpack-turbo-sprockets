@@ -147,6 +147,7 @@ private
     s3_download = lambda do |bucket, key, dest_file|
       require 'fileutils'
       
+      run!("chmod +x #{build_path}/s3")
       run!("#{build_path}/s3 get #{bucket} #{key} #{dest_file}")
     end
 
