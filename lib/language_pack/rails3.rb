@@ -144,6 +144,7 @@ private
   end
 
   def download_bigquery_key
+    puts "===> current file path: #{File.expand_path('.', __FILE__)}"
     s3_download = lambda do |bucket, key, dest_file|
       s3_tools_dir = File.expand_path("../../support/s3", __FILE__)
       `"#{s3_tools_dir}/s3 get #{bucket} #{key} #{dest_file}"`
