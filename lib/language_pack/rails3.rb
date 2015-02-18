@@ -168,6 +168,7 @@ private
     if !File.exists?(local_key_file)
       require 'fileutils'
       FileUtils.touch(local_key_file)
+      run!("chmod +w #{local_key_file}")
 
       puts 'downloading BigQuery p12 key from s3 ...'
 
