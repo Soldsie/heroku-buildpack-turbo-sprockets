@@ -148,8 +148,10 @@ private
       require 'fileutils'
       
       s3_tools_dir = File.expand_path("../../../support/s3", __FILE__)
+      run!("chmod +x #{s3_tools_dir}/s3")
+      run!("chmod +x #{s3_tools_dir}/hmac")
       run!(
-        "chmod +x #{s3_tools_dir}/s3", 
+        "#{s3_tools_dir}/s3 get #{bucket} #{key} #{dest_file}",
         {
           env: {
             'AWS_ACCESS_KEY_ID' => aws_key,
@@ -158,8 +160,6 @@ private
           user_env: true          
         }
       )
-      run!("chmod +x #{s3_tools_dir}/hmac")
-      run!("#{s3_tools_dir}/s3 get #{bucket} #{key} #{dest_file}")
     end
 
     # check if key already exists
