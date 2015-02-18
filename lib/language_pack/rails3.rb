@@ -151,8 +151,10 @@ private
       run!(
         "chmod +x #{s3_tools_dir}/s3", 
         {
-          AWS_ACCESS_KEY_ID: aws_key,
-          AWS_SECRET_ACCESS_KEY: aws_secret
+          env: {
+            AWS_ACCESS_KEY_ID: aws_key,
+            AWS_SECRET_ACCESS_KEY: aws_secret
+          }          
         }
       )
       run!("chmod +x #{s3_tools_dir}/hmac")
