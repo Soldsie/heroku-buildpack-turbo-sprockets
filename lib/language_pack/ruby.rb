@@ -97,8 +97,8 @@ class LanguagePack::Ruby < LanguagePack::Base
         create_database_yml
         install_binaries
         run_assets_precompile_rake_task        
-        s3_file_download
-      end      
+      end
+      s3_file_download
       super
     end
   end

@@ -139,37 +139,21 @@ private
   end
 
   def s3_file_download
-    super    
-    download_bigquery_key    
+    super
+    download_bigquery_key
   end
 
-  def download_bigquery_key
-    s3_download = lambda do |aws_key, aws_secret, bucket, key, dest_file|
-      require 'fileutils'
-      
-      s3_tools_dir = File.expand_path("../../../support/s3", __FILE__)
-      run!("chmod +x #{s3_tools_dir}/s3")
-      run!("chmod +x #{s3_tools_dir}/hmac")
-      run!(
-        "#{s3_tools_dir}/s3 get '#{bucket}' '#{key}' '#{dest_file}'",
-        {
-          env: {
-            'AWS_ACCESS_KEY_ID' => aws_key,
-            'AWS_SECRET_ACCESS_KEY' => aws_secret
-          },
-          user_env: true          
-        }
-      )
+  def download_bigquery_key(s3_staging_dir, s3_cmd_dir)
+    s3_download = lambda do |aws_key, aws_secret, bucket, key, dest_file|      
+      s3_tools_dir = File.expand_path("../../../scripts", __FILE__)
+      run!("chmod +x #{s3_tools_dir}/s3_download.rb")
+      run!("#{s3_tools_dir}/s3_download.rb #{aws_key} #{aws_secret} #{bucket} #{key} #{dest_file}")        
     end
 
     # check if key already exists
     local_key_filename = open(File.join(@env_path, 'BIGQUERY_KEY_FILENAME')).read.strip
     local_key_file = File.join(build_path, local_key_filename)
     if !File.exists?(local_key_file)
-      require 'fileutils'
-      FileUtils.touch(local_key_file)
-      run!("chmod +w #{local_key_file}")
-
       puts 'downloading BigQuery p12 key from s3 ...'
 
       aws_key = open(File.join(@env_path, 'AWS_ACCESS_KEY_ID')).read.strip
