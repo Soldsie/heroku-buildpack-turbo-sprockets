@@ -152,8 +152,8 @@ private
         "chmod +x #{s3_tools_dir}/s3", 
         {
           env: {
-            AWS_ACCESS_KEY_ID: aws_key,
-            AWS_SECRET_ACCESS_KEY: aws_secret
+            'AWS_ACCESS_KEY_ID' => aws_key,
+            'AWS_SECRET_ACCESS_KEY' => aws_secret
           }          
         }
       )
